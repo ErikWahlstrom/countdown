@@ -12,6 +12,7 @@ export class AppComponent {
   timeLeft: number;
   source: any;
   workingDaysLeft: number;
+  workingDaysLeftArray: any[];
 
   constructor() {
     this.source = timer(0, 1000);
@@ -32,6 +33,11 @@ export class AppComponent {
         new Date(2019, 5, 9),
       ].filter(x => x > new Date());
       this.workingDaysLeft = this.timeLeft - (nonworkingDays.length);
-  });
-}
+      const wholeDaysLeft = Math.round(this.workingDaysLeft);
+      this.workingDaysLeftArray = [];
+      for (let i = 1; i <= wholeDaysLeft; i++) {
+        this.workingDaysLeftArray.push(i);
+      }
+    });
+  }
 }

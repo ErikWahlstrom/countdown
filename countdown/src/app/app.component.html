@@ -4,5 +4,13 @@
     Welcome to {{ title }} to {{ endDate | date: 'yyyy-MM-dd HH:mm' }}!
   </h1>
   <div>Days left: {{timeLeft | number : '1.5-5' }}</div>
-  <div>Work days left: {{workingDaysLeft | number : '1.5-5' }}</div>
+  <div>Workdays left: {{workingDaysLeft | number : '1.5-5' }}</div>
+  <div>
+    <svg width="100%">
+      <g *ngFor="let item of workingDaysLeftArray">
+        <rect [attr.x]= "1000 - item*20" width="10" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+      </g>
+      <rect x=1010 width="10" height="100" style="fill:green;stroke-width:3;stroke:rgb(0,0,0)" />
+  </svg>
+  </div>
 <router-outlet></router-outlet>
