@@ -3,5 +3,6 @@
   <h1>
     Welcome to {{ title }} to {{ endDate | date: 'yyyy-MM-dd HH:mm' }}!
   </h1>
-  Days left: {{timeLeft | number : '1.5-5' }}
+  <div>Days left: {{timeLeft | number : '1.5-5' }}</div>
+  <div>Work days left: {{workingDaysLeft | number : '1.5-5' }}</div>
 <router-outlet></router-outlet>
