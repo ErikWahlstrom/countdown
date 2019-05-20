@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { timer } from 'rxjs';
+import { WorkingDay } from './WorkingDay';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,16 @@ export class AppComponent {
   timeLeft: number;
   source: any;
   workingDaysLeft: number;
-  workingDaysLeftArray: any[];
+  workingDaysLeftArray: WorkingDay[];
+  today: Date;
 
   constructor() {
     this.source = timer(0, 1000);
     const msToDays = 1000 * 3600 * 24;
     const subscribe = this.source.subscribe(val => {
-      this.timeLeft = (this.endDate.getTime() / msToDays) - (new Date().getTime() / msToDays);
+      const now = new Date();
+      this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      this.timeLeft = (this.endDate.getTime() / msToDays) - (this.today.getTime() / msToDays);
       const nonworkingDays = [
         new Date(2019, 1, 18),
         new Date(2019, 4, 18),
@@ -31,13 +35,19 @@ export class AppComponent {
         new Date(2019, 5, 6),
         new Date(2019, 5, 8),
         new Date(2019, 5, 9),
-      ].filter(x => x > new Date());
+      ].filter(x => x > this.today);
       this.workingDaysLeft = this.timeLeft - (nonworkingDays.length);
-      const wholeDaysLeft = Math.round(this.workingDaysLeft);
+      const wholeDaysLeft = Math.round(this.timeLeft);
       this.workingDaysLeftArray = [];
       for (let i = 1; i <= wholeDaysLeft; i++) {
-        this.workingDaysLeftArray.push(i);
+        const nextDay = new Date(new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() + i));
+        this.workingDaysLeftArray.push(
+          new WorkingDay(
+            nextDay,
+            !nonworkingDays.some(x => (x.getDate() === nextDay.getDate())  && (x.getMonth() === nextDay.getMonth()))));
       }
     });
   }
 }
+
+
